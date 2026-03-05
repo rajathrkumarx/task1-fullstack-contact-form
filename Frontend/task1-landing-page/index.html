@@ -1,44 +1,83 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Modern Landing Page</title>
+    <title>MainCrafts Contact Form</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Header Section -->
-    <header>
-        <h1>MainCrafts Technology</h1>
-        <p>Java Full Stack Internship - Task 1</p>
-    </header>
+<!-- Header -->
+<header>
+    <h1>MainCrafts Technology</h1>
+    <p>Java Full Stack Internship - Task 2</p>
+</header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h2>Welcome to Our Landing Page</h2>
-        <p>We build modern full-stack web applications using Spring Boot.</p>
-    </section>
+<!-- Hero Section -->
+<section class="hero">
+    <h2>Welcome to Our Landing Page</h2>
+    <p>We build modern full-stack web applications using Spring Boot.</p>
+</section>
 
-    <!-- Contact Form Section -->
-    <section class="contact">
-        <h2>Contact Us</h2>
+<!-- Contact Form -->
+<section class="contact">
+    <h2>Contact Us</h2>
 
-        <form action="http://localhost:8080/contact" method="post">
-            
-            <input type="text" name="name" placeholder="Your Name" required>
-            
-            <input type="email" name="email" placeholder="Your Email" required>
-            
-            <textarea name="message" placeholder="Your Message" required></textarea>
-            
-            <button type="submit">Send Message</button>
-        
-        </form>
-    </section>
+    <form id="contactForm">
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2026 MainCrafts Technology</p>
-    </footer>
+        <input type="text" id="name" placeholder="Your Name" required>
+
+        <input type="email" id="email" placeholder="Your Email" required>
+
+        <textarea id="message" placeholder="Your Message" required></textarea>
+
+        <button type="submit">Send Message</button>
+
+    </form>
+
+    <p id="responseMsg"></p>
+
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>© 2026 MainCrafts Technology</p>
+</footer>
+
+<script>
+
+document.getElementById("contactForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const message = document.getElementById("message").value;
+
+    fetch("http://localhost:8080/submit", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: name,
+            email: email,
+            message: message
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("responseMsg").innerHTML =
+        "✅ Message saved successfully!";
+        document.getElementById("contactForm").reset();
+    })
+    .catch(error => {
+        document.getElementById("responseMsg").innerHTML =
+        "❌ Error sending message!";
+    });
+
+});
+
+</script>
 
 </body>
 </html>

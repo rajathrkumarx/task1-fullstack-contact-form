@@ -1,23 +1,24 @@
 package com.example.contactapp;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 public class ContactController {
 
-    @PostMapping("/contact")
-    public String handleContact(
-            @RequestParam String name,
-            @RequestParam String email,
-            @RequestParam String message) {
+    @Autowired
+    private ContactRepository repo;
 
-        System.out.println("===== New Form Submission =====");
-        System.out.println("Name: " + name);
-        System.out.println("Email: " + email);
-        System.out.println("Message: " + message);
-        System.out.println("================================");
+    @PostMapping("/submit")
+    public Contact saveContact(@RequestBody Contact contact) {
+        return repo.save(contact);
+    }
 
-        return "Form submitted successfully!";
+    @GetMapping("/contacts")
+    public List<Contact> getAllContacts() {
+        return repo.findAll();
     }
 }
